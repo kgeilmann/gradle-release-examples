@@ -17,8 +17,8 @@ allprojects {
 
 release {
     tagTemplate = '$name-$version'
-    buildTasks = subprojects*.build.name
-    buildTasks.each {println it}
+    buildTasks = subprojects.collect {s -> s.path + ":build"}
+    buildTasks.each {println "BuildTask: " + it}
     
     failOnCommitNeeded = false
     failOnPublishNeeded = false
