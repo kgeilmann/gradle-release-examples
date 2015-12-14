@@ -19,8 +19,14 @@ release {
     tagTemplate = '$name-$version'
     buildTasks = subprojects*.build
     
-    failOnPublishNeeded=false
-    
+    failOnCommitNeeded = false
+    failOnPublishNeeded = false
+    failOnUpdateNeeded = false
+    git {
+        requireBranch = ''
+        pushToRemote = ''
+        pushToBranchPrefix = ''
+    }
 }
 
 task(startmessage) << {
