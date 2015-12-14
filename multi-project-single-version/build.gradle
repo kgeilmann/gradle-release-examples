@@ -18,6 +18,7 @@ allprojects {
 release {
     tagTemplate = '$name-$version'
     buildTasks = subprojects*.build.name
+    buildTasks*.println
     
     failOnCommitNeeded = false
     failOnPublishNeeded = false
@@ -41,3 +42,7 @@ beforeReleaseBuild.dependsOn startmessage
 afterReleaseBuild.dependsOn printversion
 
 wrapper.gradleVersion = '2.7'
+
+project.afterEvaluate {
+    project.tasks.each {println it}
+}
