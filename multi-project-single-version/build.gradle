@@ -29,6 +29,7 @@ release {
         pushToBranchPrefix = ''
     }
 }
+beforeReleaseBuild.finalizedBy build
 
 task(startmessage) << {
     println 'starting build'
@@ -42,7 +43,3 @@ beforeReleaseBuild.dependsOn startmessage
 afterReleaseBuild.dependsOn printversion
 
 wrapper.gradleVersion = '2.7'
-
-project.afterEvaluate {
-   // project.tasks.each {println it}
-}
