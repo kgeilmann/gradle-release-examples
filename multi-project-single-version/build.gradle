@@ -17,6 +17,10 @@ allprojects {
 
 release {
     tagTemplate = '$name-$version'
+    buildTasks = subprojects*.build
+    
+    failOnPublishNeeded=false
+    
 }
 
 task(startmessage) << {
