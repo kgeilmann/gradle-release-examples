@@ -1,3 +1,4 @@
 *.iml
 .gradle
 build/
+/multi-project-single-version/.nb-gradle/
