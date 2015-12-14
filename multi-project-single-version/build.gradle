@@ -18,6 +18,8 @@ allprojects {
 release {
     tagTemplate = '$name-$version'
     
+    buildTasks = [':multi-project-single-version:subproject1:build', 'build']
+    
     failOnCommitNeeded = false
     failOnPublishNeeded = false
     failOnUpdateNeeded = false
@@ -27,7 +29,7 @@ release {
         pushToBranchPrefix = ''
     }
 }
-afterReleaseBuild.dependsOn subprojects*.build
+//afterReleaseBuild.dependsOn subprojects*.build
 
 task(startmessage) << {
     println 'starting build'
