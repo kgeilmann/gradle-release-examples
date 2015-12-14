@@ -15,8 +15,6 @@ allprojects {
     }
 }
 
-evaluationDependsOnChildren() 
-
 release {
     tagTemplate = '$name-$version'
     
@@ -29,7 +27,7 @@ release {
         pushToBranchPrefix = ''
     }
 }
-//beforeReleaseBuild.dependsOn build
+afterReleaseBuild.dependsOn subprojects*.build
 
 task(startmessage) << {
     println 'starting build'
