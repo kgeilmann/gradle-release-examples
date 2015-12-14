@@ -17,8 +17,6 @@ allprojects {
 
 release {
     tagTemplate = '$name-$version'
-    buildTasks = subprojects.collect {s -> s.path + ":build"}
-    buildTasks.each {println "BuildTask: " + it}
     
     failOnCommitNeeded = false
     failOnPublishNeeded = false
@@ -29,7 +27,7 @@ release {
         pushToBranchPrefix = ''
     }
 }
-beforeReleaseBuild.finalizedBy build
+beforeReleaseBuild.dependsOn build
 
 task(startmessage) << {
     println 'starting build'
