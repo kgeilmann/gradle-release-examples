@@ -1,0 +1,55 @@
+plugins {
+    id 'idea'
+    id 'net.researchgate.release' version '2.3.0'
+}
+
+allprojects {
+    apply plugin: 'java'
+    apply plugin: 'maven-publish'
+
+    repositories {
+        jcenter()
+    }
+
+    dependencies {
+        testCompile group: 'junit', name: 'junit', version: '4.12'
+    }
+}
+
+release {
+    tagTemplate = '$name-$version'
+}
+afterReleaseBuild.dependsOn subprojects*.build // ensure subprojects are build
+afterReleaseBuild.dependsOn publish // publish everything to maven
+publish.mustRunAfter subprojects*.build // fix order, otherwise build is executed twice on subprojects
+
+publishing {
+    repositories {
+        maven {
+            def repoBase = "http://localhost:8081/nexus/content/repositories"
+            url "${repoBase}/${project.version.endsWith('-SNAPSHOT') ? 'snapshots' : 'releases' }/"
+            credentials {
+                username 'deployment'
+                password 'deployment123'
+            }
+        }
+    }
+    
+    publications {
+        // define the publication of the toplevel project
+        toplevel(MavenPublication) {
+            from components.java
+        }
+        
+        subprojects.each {s ->
+            // define a publication with a unique name for each subproject
+            def pubName = "Maven" + s.path.replaceAll(Project.PATH_SEPARATOR, "") 
+            "$pubName"(MavenPublication) {
+                artifactId = s.name
+                from s.components.java
+            }
+        }
+    }
+}
+
+wrapper.gradleVersion = '2.7'
